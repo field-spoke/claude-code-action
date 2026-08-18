@@ -20,6 +20,10 @@
 - **No Cross-Repository Access**: Each action invocation is limited to the repository where it was triggered
 - **Limited Scope**: The token cannot access other repositories or perform actions beyond the configured permissions
 
+### FieldSpoke fork policy
+
+FieldSpoke consumers pin this fork by full commit SHA. The fork intentionally fails closed when Linux subprocess-isolation dependencies cannot be installed and verified within their command-level timeouts. This divergence tracks [anthropics/claude-code-action#1694](https://github.com/anthropics/claude-code-action/issues/1694) and can be retired after an equivalent upstream fix is released and reviewed.
+
 ## Using this action with `pull_request_target` or `workflow_run`
 
 For `workflow_run` events, the action checks the repository access of the actor that started the upstream run (for example, the author of the fork pull request that triggered your CI workflow) in addition to the workflow actor. If that actor does not have write access, the action stops before running Claude. To run on `workflow_run` events downstream of pull requests from contributors without write access, add those users to `allowed_non_write_users` and pass `github_token: ${{ secrets.GITHUB_TOKEN }}` — see the notes on that input above and keep the workflow's permissions minimal.
